@@ -29,6 +29,9 @@ public class HibernateDAO {
 		
 		 Seller seller = returnSeller((long) 11);
 		 System.out.println(seller.getName());
+		 
+		 Product product = returnProduct((long) 12);
+		 System.out.println(product.getName());
 	}
 	
 	public static HibernateDAO getInstance() {
@@ -55,6 +58,16 @@ public class HibernateDAO {
 		return seller;
 	}
 	
+	public static Product returnProduct(Long id) {
+		Query query = session.createQuery("FROM Product where id = :id_product");
+		query.setParameter("id_product", id);
+		List<Product> productlist = query.list();
+		
+		Product product = productlist.get(0);
+		
+		return product;
+	}
+	
 	public static List<Product> returnProductList() {
 		Query query = session.createQuery("FROM Product");
 		List<Product> products = query.list();	
@@ -63,19 +76,19 @@ public class HibernateDAO {
 	
 	public static void insertObject(Object object) {
 		 Transaction transaction = session.beginTransaction();
-		 session.save(object);
+		 session.saveOrUpdate(object);
 		 transaction.commit();		
 	}
 	
 	public static void updateObject(Object object) {
 		 Transaction transaction = session.beginTransaction();
-		 session.update(object);;
+		 session.saveOrUpdate(object);
 		 transaction.commit();
 	}
 	
 	public static void deleteObject(Object object) {
 		 Transaction transaction = session.beginTransaction();
-		 session.delete(object);
+		 session.remove(object);
 		 transaction.commit();
 	}
 	

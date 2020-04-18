@@ -9,4 +9,42 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
+  
+  <servlet>
+		<servlet-name>DeleteServ</servlet-name>
+			<servlet-class>
+				servlets.DeleteServ
+			</servlet-class>
+	</servlet>
+	
+	
+	<servlet-mapping>
+		<servlet-name>DeleteServ</servlet-name>
+		<url-pattern>/DeleteServ</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>UpdateServ</servlet-name>
+			<servlet-class>
+				servlets.UpdateServ
+			</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>UpdateServ</servlet-name>
+		<url-pattern>/UpdateServ</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>InsertServ</servlet-name>
+			<servlet-class>
+				servlets.InsertServ
+			</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>InsertServ</servlet-name>
+		<url-pattern>/InsertServ</url-pattern>
+	</servlet-mapping>
+	
 </web-app>

@@ -4,14 +4,11 @@ var buttonSeller = document.getElementById("SendSeller");
 var buttonProduct = document.getElementById("SendProduct");
 var tablename = "";
 
-//
-
 var upbuttons;
 var dlbuttons;
 var insSeller;
 var insProduct;
 
-//Post
 function ajaxPost(params){
 	var request = new XMLHttpRequest();
 	
@@ -23,6 +20,54 @@ function ajaxPost(params){
 	}
 
 	request.open('POST', 'main.jsp');
+	request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+	request.send(params);
+		
+}
+
+function ajaxPostToDelete(params){
+	var request = new XMLHttpRequest();
+	
+	request.onreadystatechange = function(){
+		if(request.readyState == 4){
+			document.getElementById('result').innerHTML = request.responseText;
+			buttons_events();
+		}
+	}
+
+	request.open('POST', 'DeleteServ');
+	request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+	request.send(params);
+		
+}
+
+function ajaxPostToUpdate(params){
+	var request = new XMLHttpRequest();
+	
+	request.onreadystatechange = function(){
+		if(request.readyState == 4){
+			document.getElementById('result').innerHTML = request.responseText;
+			buttons_events();
+		}
+	}
+
+	request.open('POST', 'UpdateServ');
+	request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+	request.send(params);
+		
+}
+
+function ajaxPostToInsert(params){
+	var request = new XMLHttpRequest();
+	
+	request.onreadystatechange = function(){
+		if(request.readyState == 4){
+			document.getElementById('result').innerHTML = request.responseText;
+			buttons_events();
+		}
+	}
+
+	request.open('POST', 'InsertServ');
 	request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 	request.send(params);
 		
@@ -42,6 +87,7 @@ buttonProduct.addEventListener('click', function(){
 function buttons_events(){
 	upbuttons = document.getElementsByClassName("upbutton");
 	dlbuttons = document.getElementsByClassName("dlbutton");
+	console.log(dlbuttons.length);
 	insProduct = document.getElementById("insertProduct");
 	insSeller = document.getElementById("insertSeller");
 
@@ -60,15 +106,23 @@ function buttons_events(){
 		var productname = document.getElementById("productname").value;
 		var productprice = document.getElementById("productprice").value;
 		var id_seller = document.getElementById("id_seller").value;			
-		var params = "table=product&operation=insertProduct&productname="+ productname +"&productprice=" + productprice +"&id_seller=" + id_seller;
-		ajaxPost(params);
+		var params = "table=product&operation=insertProduct&name="+ productname +"&price=" + productprice +"&id_seller=" + id_seller;
+		ajaxPostToInsert(params);
 	});
 	}	
 
+	for (var i = 0; i < dlbuttons.length; i++) {
+		dlbuttons[i].addEventListener('click', function(){
+			alert("delete");
+			var id_to_delete = this.id;	
+			var params = `table=${tablename}&operation=delete&id=${id_to_delete}`;
+			ajaxPostToDelete(params);
+		});
+	}
 
 	for (var i = 0; i < upbuttons.length; i++) {
-
 		upbuttons[i].addEventListener('click', function(){
+			alert("update");
 			var id_to_update = this.id;	
 			var tds = document.getElementsByClassName(id_to_update);
 
@@ -76,17 +130,11 @@ function buttons_events(){
 			var price = tds[1].value;
 			var id_seller = tds[2].value;
 
-			var params = `table=${tablename}&operation=update&id_to_update=${id_to_update}&productname=${name}&productprice=${price}&id_seller=${id_seller}`;
-			ajaxPost(params);
+			var params = `table=${tablename}&operation=update&id=${id_to_update}&name=${name}&price=${price}&id_seller=${id_seller}`;
+			ajaxPostToUpdate(params);
 		});
 
-
-
-		dlbuttons[i].addEventListener('click', function(){
-			var id_to_delete = this.id;	
-			var params = `table=${tablename}&operation=delete&id_to_delete=${id_to_delete}`;
-			ajaxPost(params);
-		});
 	}
+
 }
 
