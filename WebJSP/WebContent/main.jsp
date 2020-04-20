@@ -12,33 +12,6 @@
 
 <c:set var="table" value="${param.table}"></c:set>
 
-<c:out value="${param}"></c:out>
-
-<c:if test="${param.operation eq 'delete'}">
-	<c:set var="objdelete" value="${productDataBean.delete(param.id_to_delete)}"></c:set>
-</c:if>
-
-<c:if test="${param.operation eq 'insertProduct'}">
-	<c:set var="insertproduct" value="${productDataBean.insert(param.productname, param.productprice, param.id_seller)}"></c:set>
-</c:if>
-
-<c:if test="${param.operation eq 'insertSeller'}">
-	<c:set var="insertseller" value="${sellerDataBean.insert(param.name, param.description)}"></c:set>
-</c:if>
-
-
-<c:if test="${param.operation eq 'update'}">
-	<c:if test="${table eq 'seller'}">
-		<c:out value="Update Seller"/>
-	</c:if>
-	
-	<c:if test="${table eq 'product'}">
-		<c:out value="Update Product"/>
-		<c:set var="updateproduct" value="${productDataBean.update(param.id_to_update,param.productname, param.productprice, param.id_seller)}"></c:set> 
-	</c:if>
-	
-</c:if>
-
 
 <c:if test="${table eq 'seller'}">
 	<table border="1", border-collapse="collapse">
@@ -53,10 +26,10 @@
 					<c:out value="${seller.getId()}"/>
 				</td>
 				<td>
-					<input type="text" value="${seller.getName()}">
+					<input class="${seller.getId()}" type="text" value="${seller.getName()}">
 				</td>
 				<td>
-					<input type="text" value="${seller.getDescription()}">
+					<input class="${seller.getId()}" type="text" value="${seller.getDescription()}">
 				</td>
 				<td>
 					<input id="${seller.getId()}" class="upbutton" type="button" value="Update">

@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import dao.HibernateDAO;
 import domain.Product;
+import domain.Seller;
 
 public class DeleteServ extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -26,9 +27,13 @@ public class DeleteServ extends HttpServlet {
 		int id = Integer.parseInt(request.getParameter("id"));
 		printWriter.write("Delete id= " + request.getParameter("id"));
 		
-		Product product = HibernateDAO.getInstance().returnProduct((long) id);
-			
-		HibernateDAO.getInstance().deleteObject(product);
+		if (request.getParameter("table").equals("seller") ) {
+			Seller seller = HibernateDAO.getInstance().returnSeller((long) id);
+			HibernateDAO.getInstance().deleteObject(seller);
+		}else {
+			Product product = HibernateDAO.getInstance().returnProduct((long) id);
+			HibernateDAO.getInstance().deleteObject(product);
+		}
 		
 	}
 

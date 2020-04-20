@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import dao.HibernateDAO;
 import domain.Product;
+import domain.Seller;
 
 
 public class InsertServ extends HttpServlet {
@@ -30,12 +31,23 @@ public class InsertServ extends HttpServlet {
 		printWriter.write("Insert price= " + request.getParameter("price"));
 		printWriter.write("Insert seller= " + request.getParameter("id_seller"));
 		
-		Product product = new Product();
-		product.setName(request.getParameter("name"));
-		product.setPrice(Integer.parseInt(request.getParameter("price")));
-		product.setSeller(HibernateDAO.getInstance().returnSeller((long) Integer.parseInt(request.getParameter("id_seller"))));
+		if (request.getParameter("operation").equals("insertSeller") ) {
+			Seller seller = new Seller();
+			seller.setName(request.getParameter("name"));
+			seller.setDescription(request.getParameter("description"));
 			
-		HibernateDAO.getInstance().insertObject(product);
+			HibernateDAO.getInstance().insertObject(seller);
+			
+			
+			
+		}else {
+			Product product = new Product();
+			product.setName(request.getParameter("name"));
+			product.setPrice(Integer.parseInt(request.getParameter("price")));
+			product.setSeller(HibernateDAO.getInstance().returnSeller((long) Integer.parseInt(request.getParameter("id_seller"))));
+				
+			HibernateDAO.getInstance().insertObject(product);
+		}
 	}
 
 }

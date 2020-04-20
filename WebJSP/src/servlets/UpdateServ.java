@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import dao.HibernateDAO;
 import domain.Product;
+import domain.Seller;
 
 public class UpdateServ extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -34,12 +35,18 @@ public class UpdateServ extends HttpServlet {
 		printWriter.write("Update price= " + request.getParameter("price"));
 		printWriter.write("Update seller= " + request.getParameter("id_seller"));
 		
-		Product product = HibernateDAO.getInstance().returnProduct((long) id);
-		product.setName(request.getParameter("name"));
-		product.setPrice(Integer.parseInt(request.getParameter("prise")));
-		product.setSeller(HibernateDAO.getInstance().returnSeller((long) Integer.parseInt(request.getParameter("id_seller"))));
-			
-		HibernateDAO.getInstance().updateObject(product);
+		if (request.getParameter("table").equals("seller") ) {
+			Seller seller = HibernateDAO.getInstance().returnSeller((long) id);
+			seller.setName(request.getParameter("name"));
+			seller.setDescription(request.getParameter("price"));
+			HibernateDAO.getInstance().updateObject(seller);
+		}else {
+			Product product = HibernateDAO.getInstance().returnProduct((long) id);
+			product.setName(request.getParameter("name"));
+			product.setPrice(Double.parseDouble(request.getParameter("price")));
+			product.setSeller(HibernateDAO.getInstance().returnSeller((long) Integer.parseInt(request.getParameter("id_seller"))));	
+			HibernateDAO.getInstance().updateObject(product);
+		}
 	}
 
 }
